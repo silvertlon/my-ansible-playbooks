@@ -1,0 +1,14 @@
+---
+- name: Gather running configuration from routers
+  hosts: all  # inventory.yml에서 정의한 모든 호스트에 적용됩니다
+  tasks:
+    - name: Retrieve running configuration
+      ios_command:
+        commands:
+          - show run
+      register: show_run_output  # 결과를 변수에 저장합니다
+
+    - name: Save configuration to file
+      copy:
+        content: "{{ show_run_output.stdout[0] }}"  # 출력된 결과를 파일에 저장합니다
+        dest: "/path/to/save/{{ inventory_hostname }}_running_config.txt"  # 파일 경로와 이름을 설정합니다
