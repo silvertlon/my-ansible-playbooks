@@ -1,0 +1,23 @@
+---
+- name: Ping test on Cisco IOS devices
+  hosts: ios_devices
+  gather_facts: no  # Cisco IOS에서는 일반적으로 facts 모듈을 지원하지 않으므로 gather_facts를 비활성화
+
+  tasks:
+    - name: Ping test for 192.168.0.111
+      ios_ping:
+        dest: 192.168.0.111
+      register: result_192_168_0_111
+      ignore_errors: yes  # ping이 실패할 수 있으므로 오류 무시
+
+    - debug:
+        msg: "Ping result for 192.168.0.111: {{ result_192_168_0_111 }}"
+
+    - name: Ping test for 192.168.0.112
+      ios_ping:
+        dest: 192.168.0.112
+      register: result_192_168_0_112
+      ignore_errors: yes  # ping이 실패할 수 있으므로 오류 무시
+
+    - debug:
+        msg: "Ping result for 192.168.0.112: {{ result_192_168_0_112 }}"
