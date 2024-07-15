@@ -1,16 +1,15 @@
 ---
-- name: Collect show inventory from Cisco NX-OS devices
-  hosts: nxos_devices
-  connection: network_cli
+- name: Collect "show inventory" from IOS devices
+  hosts: ios_switches
   gather_facts: no
-
   tasks:
-    - name: Gather show inventory information
-      nxos_command:
+    - name: Run "show inventory"
+      ios_command:
         commands:
           - show inventory
-      register: show_inventory_output
+      register: inventory_output
 
-    - name: Print show inventory output
+    - name: Print inventory output
       debug:
-        var: show_inventory_output.stdout_lines
+        var: inventory_output.stdout_lines
+
